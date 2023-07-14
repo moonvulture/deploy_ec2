@@ -1,0 +1,24 @@
+---
+- name: Provision EC2 instance
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    # Tasks go here
+    - name: Launch EC2 instance
+      amazon.aws.ec2_instance:
+        name: "{{ item }}"
+        region: eu-north-1
+        instance_type: t3.micro
+        image_id: ami-0874ff0d73a3ab8cf
+        key_name: rhel-keypair
+        # state: absent
+      register: ec2_instance
+      loop:
+        - rhel-test1
+        - rhel-test2
+        - rhel-test3
+        - rhel-test4
+
+    - name: debug
+      debug: 
+        var: ec2_instance
