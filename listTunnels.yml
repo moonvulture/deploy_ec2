@@ -1,0 +1,27 @@
+- name: List Cloudflare Tunnels
+  hosts: localhost
+  gather_facts: no
+  vars:
+    account_identifier: '4e8cd3fa101a8fe31e8be863d92638d1'
+    cloudflare_api_token: 'k2jkajx9vo0HEWrKXsJMCqyU93yf5i2jch3ttogn'
+    tunnel_id: 'af78c8b5-1de9-4dbd-a99a-45d357e5ecf1'
+  
+  tasks:
+    - name: Get list of Cloudflare tunnels
+      uri:
+        url: "https://api.cloudflare.com/client/v4/accounts/{{ account_identifier }}/cfd_tunnel"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ cloudflare_api_token }}"
+          Content-Type: "application/json"
+        status_code: 200
+        return_content: yes
+      register: response
+
+    - name: Show tunnels
+      debug:
+        var: response.json
+
+# https://one.dash.cloudflare.com/
+# https://dash.cloudflare.com/
+# https://developers.cloudflare.com/api/operations/cloudflare-tunnel-list-cloudflare-tunnels
