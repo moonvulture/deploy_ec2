@@ -11,12 +11,12 @@
       amazon.aws.ec2_instance:
         aws_access_key: "{{ access_key }}"
         aws_secret_key: "{{ secret_key }}"
-        name: "gitlab"
+        name: "vps-1"
         region: eu-central-1
         instance_type: t2.small
         image_id: ami-024f768332f080c5e
         key_name: gitlab
-        security_group: sg-0751bec03b38f3bf7
+        security_group: sg-056e346b7d1eb358b
         state: running
       register: ec2_instance
 
@@ -39,16 +39,17 @@
   tasks:
     - name: Run an arbitrary command
       ansible.builtin.shell: |
-        curl -L --output cloudflared.rpm https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm
-        sudo yum localinstall -y cloudflared.rpm
-        sudo cloudflared service install eyJhIjoiNGU4Y2QzZmExMDFhOGZlMzFlOGJlODYzZDkyNjM4ZDEiLCJ0IjoiYWY3OGM4YjUtMWRlOS00ZGJkLWE5OWEtNDVkMzU3ZTVlY2YxIiwicyI6IlltVXhZalF4WWpZdE9UZ3pNaTAwTkRReExUa3pNemN0T1RobE1qSXpNV1U1TlRJeiJ9
-        sudo hostnamectl set-hostname gitlab.superlab.win
-        sudo dnf install -y policycoreutils-python-utils openssh-server openssh-clients perl
-        sudo systemctl enable sshd
-        sudo systemctl start sshd
-        sudo firewall-cmd --permanent --add-service=http
-        sudo firewall-cmd --permanent --add-service=https
-        sudo systemctl reload firewalld
-        curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
-        sudo EXTERNAL_URL="https://gitlab.superlab.win" dnf install -y gitlab-ee
+        sudo yum install wireguard-tools
+#         curl -L --output cloudflared.rpm https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-x86_64.rpm
+#         sudo yum localinstall -y cloudflared.rpm
+#         sudo cloudflared service install eyJhIjoiNGU4Y2QzZmExMDFhOGZlMzFlOGJlODYzZDkyNjM4ZDEiLCJ0IjoiYWY3OGM4YjUtMWRlOS00ZGJkLWE5OWEtNDVkMzU3ZTVlY2YxIiwicyI6IlltVXhZalF4WWpZdE9UZ3pNaTAwTkRReExUa3pNemN0T1RobE1qSXpNV1U1TlRJeiJ9
+#         sudo hostnamectl set-hostname gitlab.superlab.win
+#         sudo dnf install -y policycoreutils-python-utils openssh-server openssh-clients perl
+#         sudo systemctl enable sshd
+#         sudo systemctl start sshd
+#         sudo firewall-cmd --permanent --add-service=http
+#         sudo firewall-cmd --permanent --add-service=https
+#         sudo systemctl reload firewalld
+#         curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
+#         sudo EXTERNAL_URL="https://gitlab.superlab.win" dnf install -y gitlab-ee
 
